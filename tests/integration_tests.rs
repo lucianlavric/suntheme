@@ -1,4 +1,3 @@
-use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -7,12 +6,6 @@ fn suntheme_bin() -> PathBuf {
         .join("target")
         .join("release")
         .join("suntheme")
-}
-
-fn temp_config_dir() -> PathBuf {
-    let dir = std::env::temp_dir().join("suntheme_test");
-    let _ = fs::create_dir_all(&dir);
-    dir
 }
 
 #[test]

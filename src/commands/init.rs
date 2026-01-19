@@ -1,7 +1,6 @@
 use anyhow::Result;
 use dialoguer::{Confirm, Input, Select};
 use std::collections::HashSet;
-use std::process::Command;
 
 use crate::config::{Config, Location, ThemePair, Themes};
 use crate::sun_times::{geocode_location, SunTimes};
@@ -14,6 +13,8 @@ pub fn run() -> Result<()> {
     // Request accessibility permissions for Ghostty auto-reload (macOS only)
     #[cfg(target_os = "macos")]
     {
+        use std::process::Command;
+
         println!("Suntheme needs accessibility permissions to auto-reload Ghostty themes.");
         println!("A system prompt may appear - please grant access to continue.\n");
 
