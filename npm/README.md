@@ -33,7 +33,7 @@ suntheme start
 
 ## More Info
 
-See the [GitHub repo](https://github.com/lukalavric/suntheme) for full documentation.
+See the [GitHub repo](https://github.com/lucianlavric/suntheme) for full documentation.
 
 ## License
 

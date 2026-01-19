@@ -4,7 +4,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 const zlib = require("zlib");
 
-const REPO = "lukalavric/suntheme";
+const REPO = "lucianlavric/suntheme";
 const BIN_DIR = path.join(__dirname, "bin");
 const BIN_PATH = path.join(BIN_DIR, "suntheme");
 
@@ -86,7 +86,7 @@ async function main() {
     console.error("");
     console.error("You can install manually:");
     console.error("  cargo install suntheme");
-    console.error("  # or download from https://github.com/lukalavric/suntheme/releases");
+    console.error("  # or download from https://github.com/lucianlavric/suntheme/releases");
     process.exit(1);
   }
 }

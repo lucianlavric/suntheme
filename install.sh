@@ -2,9 +2,9 @@
 set -e
 
 # suntheme installer script
-# Usage: curl -fsSL https://raw.githubusercontent.com/lukalavric/suntheme/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/lucianlavric/suntheme/main/install.sh | bash
 
-REPO="lukalavric/suntheme"
+REPO="lucianlavric/suntheme"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 
 # Detect OS and architecture
