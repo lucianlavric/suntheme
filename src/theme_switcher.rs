@@ -1,7 +1,6 @@
 use anyhow::{Context, Result};
 use std::fs;
 use std::path::PathBuf;
-use std::process::Command;
 
 use crate::config::Config;
 use crate::sun_times::ThemeMode;
@@ -56,6 +55,7 @@ impl ThemeSwitcher {
         // Use AppleScript to click Ghostty's reload menu item
         #[cfg(target_os = "macos")]
         {
+            use std::process::Command;
             let _ = Command::new("osascript")
                 .args([
                     "-e",

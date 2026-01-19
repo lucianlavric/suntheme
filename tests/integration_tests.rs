@@ -2,10 +2,8 @@ use std::path::PathBuf;
 use std::process::Command;
 
 fn suntheme_bin() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("target")
-        .join("release")
-        .join("suntheme")
+    // Use the binary path that cargo provides during test builds
+    PathBuf::from(env!("CARGO_BIN_EXE_suntheme"))
 }
 
 #[test]
