@@ -99,14 +99,27 @@ pub fn run() -> Result<()> {
     let has_themes = !available_themes.is_empty();
 
     if has_themes {
-        println!("Found {} Ghostty themes installed.\n", available_themes.len());
+        println!(
+            "Found {} Ghostty themes installed.\n",
+            available_themes.len()
+        );
     }
 
     // Get Ghostty themes with validation
     println!("Configure Ghostty themes:");
 
-    let ghostty_light = prompt_theme("Ghostty light theme", "tokyonight-day", &available_themes, has_themes)?;
-    let ghostty_dark = prompt_theme("Ghostty dark theme", "tokyonight", &available_themes, has_themes)?;
+    let ghostty_light = prompt_theme(
+        "Ghostty light theme",
+        "tokyonight-day",
+        &available_themes,
+        has_themes,
+    )?;
+    let ghostty_dark = prompt_theme(
+        "Ghostty dark theme",
+        "tokyonight",
+        &available_themes,
+        has_themes,
+    )?;
 
     // Get Neovim themes (no validation - too many sources)
     println!("\nConfigure Neovim themes:");
@@ -217,13 +230,22 @@ fn prompt_theme(
         // Suggest similar themes
         let suggestions: Vec<&String> = available
             .iter()
-            .filter(|t| t.to_lowercase().contains(&theme.to_lowercase())
-                || theme.to_lowercase().contains(&t.to_lowercase()))
+            .filter(|t| {
+                t.to_lowercase().contains(&theme.to_lowercase())
+                    || theme.to_lowercase().contains(&t.to_lowercase())
+            })
             .take(5)
             .collect();
 
         if !suggestions.is_empty() {
-            println!("  Similar themes: {}", suggestions.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(", "));
+            println!(
+                "  Similar themes: {}",
+                suggestions
+                    .iter()
+                    .map(|s| s.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            );
         }
 
         let use_anyway = Confirm::new()

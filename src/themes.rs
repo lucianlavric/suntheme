@@ -124,7 +124,9 @@ return M
     let init_lua = nvim_config_dir.join("init.lua");
     if init_lua.exists() {
         let init_content = fs::read_to_string(&init_lua)?;
-        if !init_content.contains("require(\"suntheme\")") && !init_content.contains("require('suntheme')") {
+        if !init_content.contains("require(\"suntheme\")")
+            && !init_content.contains("require('suntheme')")
+        {
             let new_content = format!("require(\"suntheme\")\n{}", init_content);
             fs::write(&init_lua, new_content)?;
         }

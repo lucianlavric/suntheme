@@ -169,7 +169,10 @@ impl SunTimes {
         } else {
             // After sunset, next switch is tomorrow's sunrise
             // For simplicity, we'll just indicate it's after today's events
-            (self.sunrise_local() + chrono::Duration::days(1), ThemeMode::Light)
+            (
+                self.sunrise_local() + chrono::Duration::days(1),
+                ThemeMode::Light,
+            )
         }
     }
 }

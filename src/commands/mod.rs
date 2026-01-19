@@ -1,4 +1,4 @@
-pub mod init;
 pub mod daemon;
-pub mod theme;
+pub mod init;
 pub mod sun;
+pub mod theme;

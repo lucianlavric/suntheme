@@ -91,14 +91,12 @@ impl Config {
     pub fn load() -> Result<Self> {
         let path = Self::config_path()?;
         if !path.exists() {
-            anyhow::bail!(
-                "Config file not found. Run 'suntheme init' to set up."
-            );
+            anyhow::bail!("Config file not found. Run 'suntheme init' to set up.");
         }
         let content = fs::read_to_string(&path)
             .with_context(|| format!("Failed to read config from {:?}", path))?;
-        let config: Config = toml::from_str(&content)
-            .with_context(|| "Failed to parse config file")?;
+        let config: Config =
+            toml::from_str(&content).with_context(|| "Failed to parse config file")?;
         Ok(config)
     }
 
@@ -107,8 +105,7 @@ impl Config {
         let dir = path.parent().unwrap();
         fs::create_dir_all(dir)
             .with_context(|| format!("Failed to create config directory {:?}", dir))?;
-        let content = toml::to_string_pretty(self)
-            .context("Failed to serialize config")?;
+        let content = toml::to_string_pretty(self).context("Failed to serialize config")?;
         fs::write(&path, content)
             .with_context(|| format!("Failed to write config to {:?}", path))?;
         Ok(())

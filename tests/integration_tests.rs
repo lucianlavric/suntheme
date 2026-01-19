@@ -54,9 +54,7 @@ fn test_sun_command_without_config() {
 
     // Either it works (config exists) or it tells user to run init
     assert!(
-        combined.contains("Sunrise") ||
-        combined.contains("init") ||
-        combined.contains("Config")
+        combined.contains("Sunrise") || combined.contains("init") || combined.contains("Config")
     );
 }
 

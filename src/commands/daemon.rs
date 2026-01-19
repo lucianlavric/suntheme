@@ -43,9 +43,9 @@ pub fn start() -> Result<()> {
 }
 
 fn run_daemon_loop(config: Config) -> Result<()> {
+    use chrono::Local;
     use std::thread;
     use std::time::Duration;
-    use chrono::Local;
 
     let switcher = ThemeSwitcher::new(config.clone());
 
@@ -74,7 +74,9 @@ fn run_daemon_loop(config: Config) -> Result<()> {
         let now = Local::now();
 
         let sleep_duration = if next_switch > now {
-            (next_switch - now).to_std().unwrap_or(Duration::from_secs(60))
+            (next_switch - now)
+                .to_std()
+                .unwrap_or(Duration::from_secs(60))
         } else {
             // If next switch is in the past (tomorrow), sleep until midnight + buffer
             Duration::from_secs(60)
@@ -105,10 +107,8 @@ pub fn stop() -> Result<()> {
         return Ok(());
     }
 
-    let pid_str = fs::read_to_string(&pid_file)
-        .context("Failed to read PID file")?;
-    let pid: i32 = pid_str.trim().parse()
-        .context("Invalid PID in PID file")?;
+    let pid_str = fs::read_to_string(&pid_file).context("Failed to read PID file")?;
+    let pid: i32 = pid_str.trim().parse().context("Invalid PID in PID file")?;
 
     // Send SIGTERM to the process
     unsafe {
@@ -154,16 +154,19 @@ pub fn status() -> Result<()> {
         }
 
         // Show sun times if available
-        if let Ok(sun_times) = SunTimes::get_cached_or_fetch(
-            cfg.location.latitude,
-            cfg.location.longitude,
-        ) {
+        if let Ok(sun_times) =
+            SunTimes::get_cached_or_fetch(cfg.location.latitude, cfg.location.longitude)
+        {
             println!();
             println!("Sunrise: {}", sun_times.sunrise_local().format("%H:%M:%S"));
             println!("Sunset:  {}", sun_times.sunset_local().format("%H:%M:%S"));
 
             let (next_switch, next_mode) = sun_times.next_switch();
-            println!("Next:    {} at {}", next_mode, next_switch.format("%H:%M:%S"));
+            println!(
+                "Next:    {} at {}",
+                next_mode,
+                next_switch.format("%H:%M:%S")
+            );
         }
     } else {
         println!();

@@ -103,8 +103,7 @@ impl ThemeSwitcher {
             }
         }
 
-        let config_dir = dirs::config_dir()
-            .context("Could not determine config directory")?;
+        let config_dir = dirs::config_dir().context("Could not determine config directory")?;
         Ok(config_dir.join("ghostty").join("config"))
     }
 

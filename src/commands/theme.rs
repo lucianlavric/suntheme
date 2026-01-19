@@ -36,13 +36,13 @@ pub fn configure_themes() -> Result<()> {
 
     println!("Configure themes\n");
     println!("Current configuration:");
-    println!("  Ghostty: light='{}', dark='{}'",
-        config.themes.ghostty.light,
-        config.themes.ghostty.dark
+    println!(
+        "  Ghostty: light='{}', dark='{}'",
+        config.themes.ghostty.light, config.themes.ghostty.dark
     );
-    println!("  Neovim:  light='{}', dark='{}'",
-        config.themes.neovim.light,
-        config.themes.neovim.dark
+    println!(
+        "  Neovim:  light='{}', dark='{}'",
+        config.themes.neovim.light, config.themes.neovim.dark
     );
     println!();
 
