@@ -1,0 +1,30 @@
+[package]
+name = "suntheme"
+version = "0.1.0"
+edition = "2021"
+description = "Switch Ghostty and Neovim themes based on sunrise/sunset times"
+license = "MIT"
+repository = "https://github.com/lukalavric/suntheme"
+homepage = "https://github.com/lukalavric/suntheme"
+readme = "README.md"
+keywords = ["theme", "ghostty", "neovim", "sunrise", "sunset"]
+categories = ["command-line-utilities"]
+authors = ["Luka Lavric"]
+
+[[bin]]
+name = "suntheme"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+reqwest = { version = "0.11", features = ["blocking", "json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+chrono = { version = "0.4", features = ["serde"] }
+dirs = "5.0"
+dialoguer = "0.11"
+anyhow = "1.0"
+daemonize = "0.5"
+libc = "0.2"
+urlencoding = "2.1"
