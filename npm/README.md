@@ -5,7 +5,7 @@ Automatically switch Ghostty and Neovim themes based on sunrise/sunset times.
 ## Installation
 
 ```bash
-npm install -g suntheme
+npm install -g @lucianlavric/suntheme
 ```
 
 ## Quick Start

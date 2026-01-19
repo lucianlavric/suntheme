@@ -1,5 +1,5 @@
 {
-  "name": "suntheme",
+  "name": "@lucianlavric/suntheme",
   "version": "0.1.0",
   "description": "Switch Ghostty and Neovim themes based on sunrise/sunset times",
   "repository": {
