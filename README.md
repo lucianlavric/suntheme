@@ -10,15 +10,21 @@ Automatically switch Ghostty and Neovim themes based on sunrise/sunset times.
 brew install lucianlavric/tap/suntheme
 ```
 
-### Shell script (Linux/macOS)
+### Linux
 ```bash
 curl -fsSL https://raw.githubusercontent.com/lucianlavric/suntheme/main/install.sh | bash
 ```
 
-### Cargo
+### Cargo (all platforms)
 ```bash
 cargo install suntheme
 ```
+
+> **Note**: After `cargo install`, ensure `~/.cargo/bin` is in your PATH:
+> ```bash
+> echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc  # or ~/.zshrc
+> source ~/.bashrc
+> ```
 
 ## Quick Start
 
