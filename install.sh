@@ -48,4 +48,20 @@ sudo chmod +x "$INSTALL_DIR/$BINARY"
 rm -rf "$TMPDIR"
 
 echo "Installed $BINARY to $INSTALL_DIR/$BINARY"
-echo "Run 'suntheme init' to get started."
+
+# Verify installation
+if command -v suntheme &> /dev/null; then
+    echo "Run 'suntheme init' to get started."
+else
+    echo ""
+    echo "Note: $INSTALL_DIR is not in your PATH."
+    echo "Add it to your shell config:"
+    echo ""
+    echo "  # For bash (~/.bashrc):"
+    echo "  export PATH=\"$INSTALL_DIR:\$PATH\""
+    echo ""
+    echo "  # For zsh (~/.zshrc):"
+    echo "  export PATH=\"$INSTALL_DIR:\$PATH\""
+    echo ""
+    echo "Then restart your terminal or run: source ~/.bashrc (or ~/.zshrc)"
+fi
