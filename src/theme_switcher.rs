@@ -68,23 +68,15 @@ impl ThemeSwitcher {
 
         #[cfg(target_os = "linux")]
         {
-            // Use xdotool to simulate Ctrl+Shift+, (reload config shortcut)
+            // On Linux, config reload requires manual action or ydotool
+            // Ghostty doesn't have a CLI reload command yet
+            // Users on Wayland can press Ctrl+Shift+, or install ydotool
             use std::process::Command;
-            // Find all Ghostty windows and send reload shortcut to each
-            if let Ok(output) = Command::new("xdotool")
-                .args(["search", "--name", "Ghostty"])
-                .output()
-            {
-                let window_ids = String::from_utf8_lossy(&output.stdout);
-                for wid in window_ids.lines() {
-                    let wid = wid.trim();
-                    if !wid.is_empty() {
-                        let _ = Command::new("xdotool")
-                            .args(["key", "--window", wid, "ctrl+shift+comma"])
-                            .output();
-                    }
-                }
-            }
+
+            // Try ydotool for Wayland (sends key to focused window)
+            let _ = Command::new("ydotool")
+                .args(["key", "29:1", "42:1", "51:1", "51:0", "42:0", "29:0"])
+                .output();
         }
     }
 
