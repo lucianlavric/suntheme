@@ -53,7 +53,10 @@ pub fn configure_themes() -> Result<()> {
     let has_themes = !available_themes.is_empty();
 
     if has_themes {
-        println!("Found {} Ghostty themes installed.\n", available_themes.len());
+        println!(
+            "Found {} Ghostty themes installed.\n",
+            available_themes.len()
+        );
     }
 
     // Get Ghostty themes with validation
