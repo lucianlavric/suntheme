@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suntheme - Let Your Screen Follow the Sun</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sky-gradient" id="sky"></div>
+    <div class="sun-orb" id="sun"></div>
+    <div class="moon-orb" id="moon"></div>
+    <div class="stars" id="stars"></div>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">&#9788;</span>
+                <span>suntheme</span>
+            </a>
+            <div class="nav-links">
+                <a href="#thesis">Why</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#install">Install</a>
+                <a href="https://github.com/lukalavric/sun-theme" class="btn-github" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <h1>Let Your Screen <br><span class="gradient-text">Follow the Sun</span></h1>
+                <p class="hero-subtitle">
+                    Automatic theme switching for your terminal based on sunrise and sunset.
+                    Because your eyes deserve to work with nature, not against it.
+                </p>
+                <div class="hero-cta">
+                    <a href="#install" class="btn btn-primary">
+                        <span>Get Started</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#thesis" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="hero-terminal">
+                    <div class="terminal-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="terminal-title">suntheme</span>
+                    </div>
+                    <div class="terminal-body">
+                        <pre><code><span class="prompt">$</span> suntheme start
+<span class="success">&#10003;</span> Daemon started successfully
+<span class="info">&#9737;</span> Location: Toronto, Canada
+<span class="sun-icon">&#9788;</span> Sunrise: 6:42 AM
+<span class="moon-icon">&#9790;</span> Sunset: 8:15 PM
+<span class="theme-light">&#9679;</span> Current theme: <span class="highlight">light</span></code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll to explore</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <section class="thesis" id="thesis">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">The Science</span>
+                    <h2>Your Screen Should Adapt <br>To Your Environment</h2>
+                </div>
+
+                <div class="thesis-content">
+                    <div class="thesis-card main-card">
+                        <blockquote>
+                            "Display luminance adaptation to ambient illumination levels can reduce visual fatigue symptoms by up to 51% during extended computer use."
+                            <cite>— Shih & Lin, 2016, Journal of the Society for Information Display</cite>
+                        </blockquote>
+                    </div>
+
+                    <div class="thesis-grid">
+                        <div class="thesis-card">
+                            <div class="card-number">01</div>
+                            <div class="card-content">
+                                <h4>Circadian Rhythm</h4>
+                                <p>Light themes by day, dark by night — supporting your natural sleep cycle.</p>
+                            </div>
+                        </div>
+                        <div class="thesis-card">
+                            <div class="card-number">02</div>
+                            <div class="card-content">
+                                <h4>Reduced Strain</h4>
+                                <p>Matching screen to environment stops your pupils from constant adjustment.</p>
+                            </div>
+                        </div>
+                        <div class="thesis-card">
+                            <div class="card-number">03</div>
+                            <div class="card-content">
+                                <h4>Less Cognitive Load</h4>
+                                <p>Your brain spends less energy on visual processing, more on actual work.</p>
+                            </div>
+                        </div>
+                        <div class="thesis-card">
+                            <div class="card-number">04</div>
+                            <div class="card-content">
+                                <h4>Natural Transitions</h4>
+                                <p>Syncs with real sunrise and sunset times — smooth, not jarring.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Features</span>
+                    <h2>Everything You Need, <br>Nothing You Don't</h2>
+                </div>
+
+                <div class="features-showcase">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Location-Aware</h3>
+                            <p>Fetches accurate sunrise and sunset times based on your coordinates.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Background Daemon</h3>
+                            <p>Set it and forget it. Runs quietly, switching themes at the right moments.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                <path d="M9 9h6v6H9z"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Ghostty + Neovim</h3>
+                            <p>Native integration with Ghostty terminal and Neovim editor.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Easy Setup</h3>
+                            <p>Interactive wizard gets you running in under a minute.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works" id="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">How It Works</span>
+                    <h2>Simple by Design</h2>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span>1</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Configure Your Location</h3>
+                            <p>
+                                Run <code>suntheme init</code> to set your location. Enter a city name or
+                                coordinates — we'll handle the rest.
+                            </p>
+                            <div class="code-snippet">
+                                <code>$ suntheme init</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span>2</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Choose Your Themes</h3>
+                            <p>
+                                Select your preferred light and dark themes for both Ghostty and Neovim.
+                                Use any themes you already have installed.
+                            </p>
+                            <div class="theme-preview">
+                                <div class="theme-box light">
+                                    <span class="theme-label">Light</span>
+                                    <span class="theme-name">tokyonight-day</span>
+                                </div>
+                                <div class="theme-box dark">
+                                    <span class="theme-label">Dark</span>
+                                    <span class="theme-name">tokyonight</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span>3</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Start the Daemon</h3>
+                            <p>
+                                Launch the background service and suntheme takes over. It calculates
+                                sun times daily and switches your themes automatically. Add it to your
+                                shell profile to start on every terminal session.
+                            </p>
+                            <div class="code-snippet">
+                                <code>echo "suntheme start" >> ~/.zshrc</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker sun-marker">
+                            <span>&#9788;</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Enjoy Automatic Harmony</h3>
+                            <p>
+                                At sunrise, your terminal brightens. At sunset, it dims. Your workspace
+                                flows with the natural rhythm of the day.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="install" id="install">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Get Started</span>
+                    <h2>Install in Seconds</h2>
+                </div>
+
+                <div class="install-options">
+                    <div class="install-card primary">
+                        <div class="install-badge">Recommended</div>
+                        <h3>Homebrew</h3>
+                        <p>The easiest way to install on macOS</p>
+                        <div class="install-code">
+                            <code>brew install lukalavric/tap/suntheme</code>
+                            <button class="copy-btn" data-copy="brew install lukalavric/tap/suntheme">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="install-card">
+                        <h3>Cargo</h3>
+                        <p>Build from source with Rust</p>
+                        <div class="install-code">
+                            <code>cargo install suntheme</code>
+                            <button class="copy-btn" data-copy="cargo install suntheme">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="install-card">
+                        <h3>From Source</h3>
+                        <p>Clone and build manually</p>
+                        <div class="install-code">
+                            <code>git clone https://github.com/lukalavric/sun-theme && cd sun-theme && cargo build --release</code>
+                            <button class="copy-btn" data-copy="git clone https://github.com/lukalavric/sun-theme && cd sun-theme && cargo build --release">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="commands-reference">
+                    <h3>Quick Reference</h3>
+                    <div class="commands-grid">
+                        <div class="command-item">
+                            <code>suntheme init</code>
+                            <span>Interactive setup wizard</span>
+                        </div>
+                        <div class="command-item">
+                            <code>suntheme start</code>
+                            <span>Start the daemon</span>
+                        </div>
+                        <div class="command-item">
+                            <code>suntheme stop</code>
+                            <span>Stop the daemon</span>
+                        </div>
+                        <div class="command-item">
+                            <code>suntheme status</code>
+                            <span>View current status</span>
+                        </div>
+                        <div class="command-item">
+                            <code>suntheme toggle</code>
+                            <span>Toggle light/dark</span>
+                        </div>
+                        <div class="command-item">
+                            <code>suntheme sun</code>
+                            <span>Show sun times</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Work With Nature?</h2>
+                    <p>Join developers who've found harmony between their screens and the sun.</p>
+                    <a href="#install" class="btn btn-primary btn-large">
+                        <span>Install Suntheme</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">&#9788;</span>
+                    <span>suntheme</span>
+                </div>
+                <p>Open source. Made with care for your eyes.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/lukalavric/sun-theme" target="_blank">GitHub</a>
+                    <a href="https://github.com/lukalavric/sun-theme/issues" target="_blank">Issues</a>
+                    <a href="https://github.com/lukalavric/sun-theme/blob/main/LICENSE" target="_blank">MIT License</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
