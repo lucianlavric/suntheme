@@ -7,6 +7,8 @@ use std::path::PathBuf;
 pub struct Config {
     pub location: Location,
     pub themes: Themes,
+    #[serde(default)]
+    pub telemetry: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

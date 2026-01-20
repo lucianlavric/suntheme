@@ -4,6 +4,7 @@ use dialoguer::{Confirm, Input, Select};
 use crate::banner;
 use crate::config::{Config, Location, ThemePair, Themes};
 use crate::sun_times::{geocode_location, SunTimes};
+use crate::telemetry;
 use crate::theme_switcher::ThemeSwitcher;
 use crate::themes::{get_theme_presets, setup_neovim_integration};
 
@@ -100,6 +101,19 @@ pub fn run() -> Result<()> {
     println!("--- Theme Setup ---\n");
     let (ghostty_light, ghostty_dark, neovim_light, neovim_dark) = select_theme_preset()?;
 
+    // Ask for anonymous telemetry consent
+    println!("--- Help Improve Suntheme ---\n");
+    let telemetry_enabled = Confirm::new()
+        .with_prompt("  Share anonymous install statistics?")
+        .default(true)
+        .interact()?;
+
+    if telemetry_enabled {
+        println!("  Thanks! This helps prioritize development.\n");
+    } else {
+        println!("  No problem. No data will be collected.\n");
+    }
+
     // Create and save config
     let config = Config {
         location: Location {
@@ -116,10 +130,16 @@ pub fn run() -> Result<()> {
                 dark: neovim_dark,
             },
         },
+        telemetry: Some(telemetry_enabled),
     };
 
     config.save()?;
-    println!("\nConfig saved to {:?}", Config::config_path()?);
+    println!("Config saved to {:?}", Config::config_path()?);
+
+    // Send telemetry ping if enabled
+    if telemetry_enabled {
+        telemetry::send_install_ping();
+    }
 
     // Set up Neovim integration
     println!("\nSetting up Neovim integration...");

@@ -5,6 +5,7 @@ mod banner;
 mod commands;
 mod config;
 mod sun_times;
+mod telemetry;
 mod theme_switcher;
 mod themes;
 
