@@ -81,6 +81,7 @@ dark = "tokyonight"
 - iTerm2 support
 - VS Code support
 - System theme support
+- Gradient transition between light and dark themes to mimic sunrise/sunset
 
 ## License
 
