@@ -1,4 +1,4 @@
-/// ASCII art banner for suntheme CLI
+// ASCII art banner for suntheme CLI
 
 const Y: &str = "\x1b[93m"; // bright yellow
 const R: &str = "\x1b[0m"; // reset
