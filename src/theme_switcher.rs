@@ -52,9 +52,9 @@ impl ThemeSwitcher {
     }
 
     fn reload_ghostty() {
-        // Use AppleScript to click Ghostty's reload menu item
         #[cfg(target_os = "macos")]
         {
+            // Use AppleScript to click Ghostty's reload menu item
             use std::process::Command;
             let _ = Command::new("osascript")
                 .args([
@@ -64,6 +64,22 @@ impl ThemeSwitcher {
                     r#"tell application "System Events" to tell process "Ghostty" to click menu item "Reload Configuration" of menu "Ghostty" of menu bar 1"#,
                 ])
                 .output();
+        }
+
+        #[cfg(target_os = "linux")]
+        {
+            // Send SIGUSR1 to all Ghostty processes to trigger config reload
+            use std::process::Command;
+            if let Ok(output) = Command::new("pgrep").arg("-x").arg("ghostty").output() {
+                let pids = String::from_utf8_lossy(&output.stdout);
+                for pid in pids.lines() {
+                    if let Ok(pid) = pid.trim().parse::<i32>() {
+                        unsafe {
+                            libc::kill(pid, libc::SIGUSR1);
+                        }
+                    }
+                }
+            }
         }
     }
 
