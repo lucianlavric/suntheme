@@ -13,32 +13,33 @@ pub struct ThemePreset {
 }
 
 pub fn get_theme_presets() -> Vec<ThemePreset> {
+    // Note: Ghostty 1.2.0+ uses Title Case for theme names
     vec![
         ThemePreset {
             display_name: "Tokyo Night",
-            ghostty_dark: "tokyonight",
-            ghostty_light: "tokyonight-day",
+            ghostty_dark: "TokyoNight",
+            ghostty_light: "TokyoNight Day",
             neovim_dark: "tokyonight",
             neovim_light: "tokyonight-day",
         },
         ThemePreset {
             display_name: "Gruvbox",
-            ghostty_dark: "Gruvbox Dark",
-            ghostty_light: "Gruvbox Light",
+            ghostty_dark: "GruvboxDark",
+            ghostty_light: "GruvboxLight",
             neovim_dark: "gruvbox",
             neovim_light: "gruvbox",
         },
         ThemePreset {
             display_name: "Catppuccin",
-            ghostty_dark: "catppuccin-mocha",
-            ghostty_light: "catppuccin-latte",
+            ghostty_dark: "Catppuccin Mocha",
+            ghostty_light: "Catppuccin Latte",
             neovim_dark: "catppuccin",
             neovim_light: "catppuccin",
         },
         ThemePreset {
             display_name: "Nord",
-            ghostty_dark: "nord",
-            ghostty_light: "nord",
+            ghostty_dark: "Nord",
+            ghostty_light: "Nord Light",
             neovim_dark: "nord",
             neovim_light: "nord",
         },
@@ -51,15 +52,15 @@ pub fn get_theme_presets() -> Vec<ThemePreset> {
         },
         ThemePreset {
             display_name: "Rose Pine",
-            ghostty_dark: "rose-pine",
-            ghostty_light: "rose-pine-dawn",
+            ghostty_dark: "Rose Pine",
+            ghostty_light: "Rose Pine Dawn",
             neovim_dark: "rose-pine",
             neovim_light: "rose-pine",
         },
         ThemePreset {
             display_name: "Kanagawa",
-            ghostty_dark: "kanagawa",
-            ghostty_light: "kanagawa",
+            ghostty_dark: "Kanagawa",
+            ghostty_light: "Kanagawa Light",
             neovim_dark: "kanagawa",
             neovim_light: "kanagawa",
         },
