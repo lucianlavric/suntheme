@@ -1,69 +1,76 @@
 use anyhow::Result;
-use std::collections::HashSet;
 use std::fs;
 use std::path::PathBuf;
 
-pub fn get_ghostty_themes() -> Result<HashSet<String>> {
-    let mut themes = HashSet::new();
-
-    // Check user themes directory (Linux: ~/.config/ghostty/themes)
-    if let Some(config_dir) = dirs::config_dir() {
-        let user_themes = config_dir.join("ghostty").join("themes");
-        if user_themes.exists() {
-            collect_themes_from_dir(&user_themes, &mut themes)?;
-        }
-    }
-
-    // Check macOS user themes (~/Library/Application Support/com.mitchellh.ghostty/themes)
-    if let Some(data_dir) = dirs::data_dir() {
-        let macos_themes = data_dir.join("com.mitchellh.ghostty").join("themes");
-        if macos_themes.exists() {
-            collect_themes_from_dir(&macos_themes, &mut themes)?;
-        }
-    }
-
-    // Check system/bundled themes
-    let system_paths = [
-        // macOS app bundle
-        PathBuf::from("/Applications/Ghostty.app/Contents/Resources/ghostty/themes"),
-        // Linux system paths
-        PathBuf::from("/usr/share/ghostty/themes"),
-        PathBuf::from("/usr/local/share/ghostty/themes"),
-    ];
-
-    for path in system_paths {
-        if path.exists() {
-            collect_themes_from_dir(&path, &mut themes)?;
-        }
-    }
-
-    // Linux: ~/.local/share/ghostty/themes
-    if let Some(data_dir) = dirs::data_local_dir() {
-        let local_themes = data_dir.join("ghostty").join("themes");
-        if local_themes.exists() {
-            collect_themes_from_dir(&local_themes, &mut themes)?;
-        }
-    }
-
-    Ok(themes)
+/// A theme preset with friendly name and corresponding Ghostty/Neovim theme names
+#[derive(Clone)]
+pub struct ThemePreset {
+    pub display_name: &'static str,
+    pub ghostty_dark: &'static str,
+    pub ghostty_light: &'static str,
+    pub neovim_dark: &'static str,
+    pub neovim_light: &'static str,
 }
 
-fn collect_themes_from_dir(dir: &PathBuf, themes: &mut HashSet<String>) -> Result<()> {
-    if let Ok(entries) = fs::read_dir(dir) {
-        for entry in entries.flatten() {
-            let path = entry.path();
-            if path.is_file() {
-                if let Some(name) = path.file_stem() {
-                    themes.insert(name.to_string_lossy().to_string());
-                }
-            }
-        }
-    }
-    Ok(())
-}
-
-pub fn validate_ghostty_theme(theme: &str, available: &HashSet<String>) -> bool {
-    available.contains(theme)
+pub fn get_theme_presets() -> Vec<ThemePreset> {
+    vec![
+        ThemePreset {
+            display_name: "Tokyo Night",
+            ghostty_dark: "tokyonight",
+            ghostty_light: "tokyonight-day",
+            neovim_dark: "tokyonight",
+            neovim_light: "tokyonight-day",
+        },
+        ThemePreset {
+            display_name: "Gruvbox",
+            ghostty_dark: "Gruvbox Dark",
+            ghostty_light: "Gruvbox Light",
+            neovim_dark: "gruvbox",
+            neovim_light: "gruvbox",
+        },
+        ThemePreset {
+            display_name: "Catppuccin",
+            ghostty_dark: "catppuccin-mocha",
+            ghostty_light: "catppuccin-latte",
+            neovim_dark: "catppuccin",
+            neovim_light: "catppuccin",
+        },
+        ThemePreset {
+            display_name: "Nord",
+            ghostty_dark: "nord",
+            ghostty_light: "nord",
+            neovim_dark: "nord",
+            neovim_light: "nord",
+        },
+        ThemePreset {
+            display_name: "Dracula",
+            ghostty_dark: "Dracula",
+            ghostty_light: "Dracula",
+            neovim_dark: "dracula",
+            neovim_light: "dracula",
+        },
+        ThemePreset {
+            display_name: "Rose Pine",
+            ghostty_dark: "rose-pine",
+            ghostty_light: "rose-pine-dawn",
+            neovim_dark: "rose-pine",
+            neovim_light: "rose-pine",
+        },
+        ThemePreset {
+            display_name: "Kanagawa",
+            ghostty_dark: "kanagawa",
+            ghostty_light: "kanagawa",
+            neovim_dark: "kanagawa",
+            neovim_light: "kanagawa",
+        },
+        ThemePreset {
+            display_name: "Solarized",
+            ghostty_dark: "Solarized Dark",
+            ghostty_light: "Solarized Light",
+            neovim_dark: "solarized",
+            neovim_light: "solarized",
+        },
+    ]
 }
 
 pub fn setup_neovim_integration() -> Result<PathBuf> {

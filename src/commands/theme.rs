@@ -1,11 +1,10 @@
 use anyhow::Result;
-use dialoguer::{Confirm, Input};
-use std::collections::HashSet;
+use dialoguer::{Input, Select};
 
 use crate::config::{Config, ThemePair};
 use crate::sun_times::ThemeMode;
 use crate::theme_switcher::ThemeSwitcher;
-use crate::themes::{get_ghostty_themes, validate_ghostty_theme};
+use crate::themes::get_theme_presets;
 
 pub fn set(mode: ThemeMode) -> Result<()> {
     let config = Config::load()?;
@@ -48,46 +47,7 @@ pub fn configure_themes() -> Result<()> {
     );
     println!();
 
-    // Load available Ghostty themes for validation
-    let available_themes = get_ghostty_themes().unwrap_or_default();
-    let has_themes = !available_themes.is_empty();
-
-    if has_themes {
-        println!(
-            "Found {} Ghostty themes installed.\n",
-            available_themes.len()
-        );
-    }
-
-    // Get Ghostty themes with validation
-    println!("Configure Ghostty themes:");
-
-    let ghostty_light = prompt_theme(
-        "Ghostty light theme",
-        &config.themes.ghostty.light,
-        &available_themes,
-        has_themes,
-    )?;
-
-    let ghostty_dark = prompt_theme(
-        "Ghostty dark theme",
-        &config.themes.ghostty.dark,
-        &available_themes,
-        has_themes,
-    )?;
-
-    // Get Neovim themes (no validation - too many sources)
-    println!("\nConfigure Neovim themes:");
-
-    let neovim_light: String = Input::new()
-        .with_prompt("Neovim light theme")
-        .default(config.themes.neovim.light.clone())
-        .interact_text()?;
-
-    let neovim_dark: String = Input::new()
-        .with_prompt("Neovim dark theme")
-        .default(config.themes.neovim.dark.clone())
-        .interact_text()?;
+    let (ghostty_light, ghostty_dark, neovim_light, neovim_dark) = select_theme_preset()?;
 
     config.themes.ghostty = ThemePair {
         light: ghostty_light,
@@ -113,56 +73,60 @@ pub fn configure_themes() -> Result<()> {
     Ok(())
 }
 
-fn prompt_theme(
-    prompt: &str,
-    default: &str,
-    available: &HashSet<String>,
-    validate: bool,
-) -> Result<String> {
-    loop {
-        let theme: String = Input::new()
-            .with_prompt(prompt)
-            .default(default.to_string())
+fn select_theme_preset() -> Result<(String, String, String, String)> {
+    let presets = get_theme_presets();
+
+    // Build display list with presets + custom option
+    let mut items: Vec<String> = presets.iter().map(|p| p.display_name.to_string()).collect();
+    items.push("Custom (enter manually)".to_string());
+
+    let selection = Select::new()
+        .with_prompt("Select a theme")
+        .items(&items)
+        .default(0)
+        .interact()?;
+
+    if selection < presets.len() {
+        // User selected a preset
+        let preset = &presets[selection];
+        println!(
+            "\n✓ {} selected:\n  Ghostty: {} / {}\n  Neovim:  {} / {}",
+            preset.display_name,
+            preset.ghostty_dark,
+            preset.ghostty_light,
+            preset.neovim_dark,
+            preset.neovim_light
+        );
+        Ok((
+            preset.ghostty_light.to_string(),
+            preset.ghostty_dark.to_string(),
+            preset.neovim_light.to_string(),
+            preset.neovim_dark.to_string(),
+        ))
+    } else {
+        // Custom entry
+        println!("\nEnter theme names manually:\n");
+
+        let ghostty_dark: String = Input::new()
+            .with_prompt("Ghostty dark theme")
+            .default("tokyonight".to_string())
             .interact_text()?;
 
-        if !validate || available.is_empty() {
-            return Ok(theme);
-        }
+        let ghostty_light: String = Input::new()
+            .with_prompt("Ghostty light theme")
+            .default("tokyonight-day".to_string())
+            .interact_text()?;
 
-        if validate_ghostty_theme(&theme, available) {
-            return Ok(theme);
-        }
+        let neovim_dark: String = Input::new()
+            .with_prompt("Neovim dark theme")
+            .default("tokyonight".to_string())
+            .interact_text()?;
 
-        println!("  Theme '{}' not found in Ghostty themes.", theme);
+        let neovim_light: String = Input::new()
+            .with_prompt("Neovim light theme")
+            .default("tokyonight-day".to_string())
+            .interact_text()?;
 
-        // Suggest similar themes
-        let suggestions: Vec<&String> = available
-            .iter()
-            .filter(|t| {
-                t.to_lowercase().contains(&theme.to_lowercase())
-                    || theme.to_lowercase().contains(&t.to_lowercase())
-            })
-            .take(5)
-            .collect();
-
-        if !suggestions.is_empty() {
-            println!(
-                "  Similar themes: {}",
-                suggestions
-                    .iter()
-                    .map(|s| s.as_str())
-                    .collect::<Vec<_>>()
-                    .join(", ")
-            );
-        }
-
-        let use_anyway = Confirm::new()
-            .with_prompt("  Use this theme anyway?")
-            .default(false)
-            .interact()?;
-
-        if use_anyway {
-            return Ok(theme);
-        }
+        Ok((ghostty_light, ghostty_dark, neovim_light, neovim_dark))
     }
 }
