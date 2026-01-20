@@ -26,11 +26,22 @@ pub fn get_ghostty_themes() -> Result<HashSet<String>> {
     let system_paths = [
         // macOS app bundle
         PathBuf::from("/Applications/Ghostty.app/Contents/Resources/ghostty/themes"),
+        // Linux system paths
+        PathBuf::from("/usr/share/ghostty/themes"),
+        PathBuf::from("/usr/local/share/ghostty/themes"),
     ];
 
     for path in system_paths {
         if path.exists() {
             collect_themes_from_dir(&path, &mut themes)?;
+        }
+    }
+
+    // Linux: ~/.local/share/ghostty/themes
+    if let Some(data_dir) = dirs::data_local_dir() {
+        let local_themes = data_dir.join("ghostty").join("themes");
+        if local_themes.exists() {
+            collect_themes_from_dir(&local_themes, &mut themes)?;
         }
     }
 
