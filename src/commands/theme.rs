@@ -1,9 +1,11 @@
 use anyhow::Result;
-use dialoguer::Input;
+use dialoguer::{Confirm, Input};
+use std::collections::HashSet;
 
 use crate::config::{Config, ThemePair};
 use crate::sun_times::ThemeMode;
 use crate::theme_switcher::ThemeSwitcher;
+use crate::themes::{get_ghostty_themes, validate_ghostty_theme};
 
 pub fn set(mode: ThemeMode) -> Result<()> {
     let config = Config::load()?;
@@ -46,20 +48,32 @@ pub fn configure_themes() -> Result<()> {
     );
     println!();
 
-    // Get Ghostty themes
+    // Load available Ghostty themes for validation
+    let available_themes = get_ghostty_themes().unwrap_or_default();
+    let has_themes = !available_themes.is_empty();
+
+    if has_themes {
+        println!("Found {} Ghostty themes installed.\n", available_themes.len());
+    }
+
+    // Get Ghostty themes with validation
     println!("Configure Ghostty themes:");
 
-    let ghostty_light: String = Input::new()
-        .with_prompt("Ghostty light theme")
-        .default(config.themes.ghostty.light.clone())
-        .interact_text()?;
+    let ghostty_light = prompt_theme(
+        "Ghostty light theme",
+        &config.themes.ghostty.light,
+        &available_themes,
+        has_themes,
+    )?;
 
-    let ghostty_dark: String = Input::new()
-        .with_prompt("Ghostty dark theme")
-        .default(config.themes.ghostty.dark.clone())
-        .interact_text()?;
+    let ghostty_dark = prompt_theme(
+        "Ghostty dark theme",
+        &config.themes.ghostty.dark,
+        &available_themes,
+        has_themes,
+    )?;
 
-    // Get Neovim themes
+    // Get Neovim themes (no validation - too many sources)
     println!("\nConfigure Neovim themes:");
 
     let neovim_light: String = Input::new()
@@ -94,4 +108,58 @@ pub fn configure_themes() -> Result<()> {
     }
 
     Ok(())
+}
+
+fn prompt_theme(
+    prompt: &str,
+    default: &str,
+    available: &HashSet<String>,
+    validate: bool,
+) -> Result<String> {
+    loop {
+        let theme: String = Input::new()
+            .with_prompt(prompt)
+            .default(default.to_string())
+            .interact_text()?;
+
+        if !validate || available.is_empty() {
+            return Ok(theme);
+        }
+
+        if validate_ghostty_theme(&theme, available) {
+            return Ok(theme);
+        }
+
+        println!("  Theme '{}' not found in Ghostty themes.", theme);
+
+        // Suggest similar themes
+        let suggestions: Vec<&String> = available
+            .iter()
+            .filter(|t| {
+                t.to_lowercase().contains(&theme.to_lowercase())
+                    || theme.to_lowercase().contains(&t.to_lowercase())
+            })
+            .take(5)
+            .collect();
+
+        if !suggestions.is_empty() {
+            println!(
+                "  Similar themes: {}",
+                suggestions
+                    .iter()
+                    .map(|s| s.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            );
+        }
+
+        let use_anyway = Confirm::new()
+            .with_prompt("  Use this theme anyway?")
+            .default(false)
+            .interact()?;
+
+        if use_anyway {
+            return Ok(theme);
+        }
+    }
 }
