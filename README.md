@@ -83,6 +83,23 @@ light = "tokyonight-day"
 dark = "tokyonight"
 ```
 
+## Recommended Themes
+
+Themes with both Ghostty and Neovim support:
+
+| Theme | Ghostty (dark/light) | Neovim Plugin |
+|-------|---------------------|---------------|
+| Tokyo Night | `tokyonight` / `tokyonight-day` | [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) |
+| Gruvbox | `gruvbox-dark` / `gruvbox-light` | [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) |
+| Catppuccin | `catppuccin-mocha` / `catppuccin-latte` | [catppuccin/nvim](https://github.com/catppuccin/nvim) |
+| Nord | `nord` | [shaunsingh/nord.nvim](https://github.com/shaunsingh/nord.nvim) |
+| Dracula | `dracula` | [dracula/vim](https://github.com/dracula/vim) |
+| Rose Pine | `rose-pine` / `rose-pine-dawn` | [rose-pine/neovim](https://github.com/rose-pine/neovim) |
+| Kanagawa | `kanagawa` | [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) |
+| Solarized | `solarized-dark` / `solarized-light` | [maxmx03/solarized.nvim](https://github.com/maxmx03/solarized.nvim) |
+
+> **Note**: For Neovim, use the same theme name for both light and dark (e.g., `gruvbox`). The `background` setting handles the variant automatically.
+
 ## Roadmap
 
 - Windows support
