@@ -66,21 +66,7 @@ impl ThemeSwitcher {
                 .output();
         }
 
-        #[cfg(target_os = "linux")]
-        {
-            // Send SIGUSR1 to all Ghostty processes to trigger config reload
-            use std::process::Command;
-            if let Ok(output) = Command::new("pgrep").arg("-x").arg("ghostty").output() {
-                let pids = String::from_utf8_lossy(&output.stdout);
-                for pid in pids.lines() {
-                    if let Ok(pid) = pid.trim().parse::<i32>() {
-                        unsafe {
-                            libc::kill(pid, libc::SIGUSR1);
-                        }
-                    }
-                }
-            }
-        }
+        // On Linux, Ghostty auto-detects config changes - no manual reload needed
     }
 
     fn update_ghostty_theme(content: &str, theme_name: &str) -> String {
