@@ -2,13 +2,14 @@ use anyhow::Result;
 use dialoguer::{Confirm, Input, Select};
 use std::collections::HashSet;
 
+use crate::banner;
 use crate::config::{Config, Location, ThemePair, Themes};
 use crate::sun_times::{geocode_location, SunTimes};
 use crate::theme_switcher::ThemeSwitcher;
 use crate::themes::{get_ghostty_themes, setup_neovim_integration, validate_ghostty_theme};
 
 pub fn run() -> Result<()> {
-    println!("Welcome to suntheme setup!\n");
+    banner::print_welcome();
 
     // Request accessibility permissions for Ghostty auto-reload (macOS only)
     #[cfg(target_os = "macos")]
