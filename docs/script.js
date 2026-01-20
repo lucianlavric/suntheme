@@ -341,7 +341,7 @@ console.log(`
 %c☀ suntheme
 %cAutomatic theme switching based on sunrise and sunset.
 
-Check it out: https://github.com/lukalavric/sun-theme
+Check it out: https://github.com/lucianlavric/sun-theme
 `,
 'font-size: 24px; color: #FF7043; font-weight: bold;',
 'font-size: 14px; color: #888;'
