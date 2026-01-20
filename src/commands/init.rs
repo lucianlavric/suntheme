@@ -113,12 +113,7 @@ pub fn run() -> Result<()> {
         &available_themes,
         has_themes,
     )?;
-    let ghostty_dark = prompt_theme(
-        "  Dark theme",
-        "tokyonight",
-        &available_themes,
-        has_themes,
-    )?;
+    let ghostty_dark = prompt_theme("  Dark theme", "tokyonight", &available_themes, has_themes)?;
 
     // Get Neovim themes (no validation - too many sources)
     println!("\n--- Neovim Themes ---\n");
