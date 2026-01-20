@@ -70,10 +70,21 @@ impl ThemeSwitcher {
         {
             // Use xdotool to simulate Ctrl+Shift+, (reload config shortcut)
             use std::process::Command;
-            // Find Ghostty windows and send the reload shortcut
-            let _ = Command::new("xdotool")
-                .args(["search", "--name", "Ghostty", "key", "--window", "%@", "ctrl+shift+comma"])
-                .output();
+            // Find all Ghostty windows and send reload shortcut to each
+            if let Ok(output) = Command::new("xdotool")
+                .args(["search", "--name", "Ghostty"])
+                .output()
+            {
+                let window_ids = String::from_utf8_lossy(&output.stdout);
+                for wid in window_ids.lines() {
+                    let wid = wid.trim();
+                    if !wid.is_empty() {
+                        let _ = Command::new("xdotool")
+                            .args(["key", "--window", wid, "ctrl+shift+comma"])
+                            .output();
+                    }
+                }
+            }
         }
     }
 
