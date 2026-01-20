@@ -74,6 +74,14 @@ light = "tokyonight-day"
 dark = "tokyonight"
 ```
 
+## Roadmap
+
+- Windows support
+- Linux support
+- iTerm2 support
+- VS Code support
+- System theme support
+
 ## License
 
 MIT
