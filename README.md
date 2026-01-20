@@ -59,8 +59,7 @@ suntheme start
 ## Requirements
 
 - **macOS**: Accessibility permissions required for Ghostty auto-reload (prompted during setup)
-- **Linux (X11)**: `xdotool` for Ghostty auto-reload (`sudo apt install xdotool`)
-- **Linux (Wayland)**: Press `Ctrl+Shift+,` in Ghostty to reload after theme switch (Wayland security prevents auto-reload)
+- **Linux**: Auto-reload works via SIGUSR2 signal (no extra dependencies)
 - **Neovim 0.9+**: For file watching support
 - **Ghostty**: Any recent version
 
