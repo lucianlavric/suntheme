@@ -1,4 +1,5 @@
 # suntheme
+<img width="642" height="230" alt="image" src="https://github.com/user-attachments/assets/9cc57ce1-3795-4ec5-a463-0f9640c09b10" />
 
 Automatically switch Ghostty and Neovim themes based on sunrise/sunset times.
 
