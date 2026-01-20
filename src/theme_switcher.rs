@@ -68,15 +68,34 @@ impl ThemeSwitcher {
 
         #[cfg(target_os = "linux")]
         {
-            // On Linux, config reload requires manual action or ydotool
-            // Ghostty doesn't have a CLI reload command yet
-            // Users on Wayland can press Ctrl+Shift+, or install ydotool
             use std::process::Command;
 
-            // Try ydotool for Wayland (sends key to focused window)
-            let _ = Command::new("ydotool")
-                .args(["key", "29:1", "42:1", "51:1", "51:0", "42:0", "29:0"])
-                .output();
+            // Check if running on Wayland or X11
+            let is_wayland = std::env::var("XDG_SESSION_TYPE")
+                .map(|s| s == "wayland")
+                .unwrap_or(false);
+
+            if is_wayland {
+                // Wayland: no reliable way to send keys to other windows
+                // User must manually reload
+                eprintln!("Press Ctrl+Shift+, in Ghostty to reload config");
+            } else {
+                // X11: use xdotool
+                if let Ok(output) = Command::new("xdotool")
+                    .args(["search", "--class", "ghostty"])
+                    .output()
+                {
+                    let window_ids = String::from_utf8_lossy(&output.stdout);
+                    for wid in window_ids.lines() {
+                        let wid = wid.trim();
+                        if !wid.is_empty() {
+                            let _ = Command::new("xdotool")
+                                .args(["key", "--window", wid, "ctrl+shift+comma"])
+                                .output();
+                        }
+                    }
+                }
+            }
         }
     }
 
