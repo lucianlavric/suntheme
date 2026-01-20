@@ -15,6 +15,11 @@ brew install lucianlavric/tap/suntheme
 cargo install suntheme
 ```
 
+> **Linux users**: Ensure `~/.cargo/bin` is in your PATH. Add this to your `~/.bashrc` or `~/.zshrc`:
+> ```bash
+> export PATH="$HOME/.cargo/bin:$PATH"
+> ```
+
 ### Pre-built binaries
 Download from [GitHub Releases](https://github.com/lucianlavric/suntheme/releases).
 
