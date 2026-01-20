@@ -66,7 +66,15 @@ impl ThemeSwitcher {
                 .output();
         }
 
-        // On Linux, Ghostty auto-detects config changes - no manual reload needed
+        #[cfg(target_os = "linux")]
+        {
+            // Use xdotool to simulate Ctrl+Shift+, (reload config shortcut)
+            use std::process::Command;
+            // Find Ghostty windows and send the reload shortcut
+            let _ = Command::new("xdotool")
+                .args(["search", "--name", "Ghostty", "key", "--window", "%@", "ctrl+shift+comma"])
+                .output();
+        }
     }
 
     fn update_ghostty_theme(content: &str, theme_name: &str) -> String {

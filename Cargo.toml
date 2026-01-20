@@ -1,6 +1,6 @@
 [package]
 name = "suntheme"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2021"
 description = "Switch Ghostty and Neovim themes based on sunrise/sunset times"
 license = "MIT"

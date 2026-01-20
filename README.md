@@ -59,6 +59,7 @@ suntheme start
 ## Requirements
 
 - **macOS**: Accessibility permissions required for Ghostty auto-reload (prompted during setup)
+- **Linux**: `xdotool` for Ghostty auto-reload (`sudo apt install xdotool`)
 - **Neovim 0.9+**: For file watching support
 - **Ghostty**: Any recent version
 
