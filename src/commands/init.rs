@@ -54,11 +54,12 @@ pub fn run() -> Result<()> {
     }
 
     // Get location by name
+    println!("--- Location Setup ---\n");
     println!("Enter your location for sunrise/sunset calculations.\n");
 
     let (latitude, longitude) = loop {
         let location_query: String = Input::new()
-            .with_prompt("Location (city, address, etc.)")
+            .with_prompt("  Location (city, address, etc.)")
             .interact_text()?;
 
         println!("Searching...");
@@ -76,7 +77,7 @@ pub fn run() -> Result<()> {
                     .collect();
 
                 let selection = Select::new()
-                    .with_prompt("Select your location")
+                    .with_prompt("  Select your location")
                     .items(&items)
                     .default(0)
                     .interact()?;
@@ -100,39 +101,35 @@ pub fn run() -> Result<()> {
     let available_themes = get_ghostty_themes().unwrap_or_default();
     let has_themes = !available_themes.is_empty();
 
+    // Get Ghostty themes with validation
+    println!("--- Ghostty Themes ---\n");
     if has_themes {
-        println!(
-            "Found {} Ghostty themes installed.\n",
-            available_themes.len()
-        );
+        println!("  Found {} themes installed.\n", available_themes.len());
     }
 
-    // Get Ghostty themes with validation
-    println!("Configure Ghostty themes:");
-
     let ghostty_light = prompt_theme(
-        "Ghostty light theme",
+        "  Light theme",
         "tokyonight-day",
         &available_themes,
         has_themes,
     )?;
     let ghostty_dark = prompt_theme(
-        "Ghostty dark theme",
+        "  Dark theme",
         "tokyonight",
         &available_themes,
         has_themes,
     )?;
 
     // Get Neovim themes (no validation - too many sources)
-    println!("\nConfigure Neovim themes:");
+    println!("\n--- Neovim Themes ---\n");
 
     let neovim_light: String = Input::new()
-        .with_prompt("Neovim light theme")
+        .with_prompt("  Light theme")
         .default("tokyonight-day".to_string())
         .interact_text()?;
 
     let neovim_dark: String = Input::new()
-        .with_prompt("Neovim dark theme")
+        .with_prompt("  Dark theme")
         .default("tokyonight".to_string())
         .interact_text()?;
 
@@ -196,13 +193,14 @@ pub fn run() -> Result<()> {
         }
     }
 
-    println!("\nSetup complete! Commands:\n");
-    println!("  suntheme sun      - Show today's sunrise/sunset times");
-    println!("  suntheme start    - Start the daemon for automatic switching");
-    println!("  suntheme toggle   - Manually toggle between light/dark");
-    println!("  suntheme set dark - Set a specific theme mode");
-    println!("  suntheme themes   - Change theme configuration");
-    println!("  suntheme status   - Check daemon status");
+    println!("\n--- Setup Complete! ---\n");
+    println!("  suntheme sun      Show today's sunrise/sunset times");
+    println!("  suntheme start    Start the daemon for automatic switching");
+    println!("  suntheme toggle   Manually toggle between light/dark");
+    println!("  suntheme set      Set a specific theme mode");
+    println!("  suntheme themes   Change theme configuration");
+    println!("  suntheme status   Check daemon status");
+    println!();
 
     Ok(())
 }
