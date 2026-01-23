@@ -41,78 +41,67 @@ pub fn run() -> Result<()> {
         }
     }
 
-    if Config::exists()? {
-        let overwrite = Confirm::new()
-            .with_prompt("Config already exists. Overwrite?")
-            .default(false)
+    let existing_config = if Config::exists()? {
+        Some(Config::load()?)
+    } else {
+        None
+    };
+
+    let (latitude, longitude) = if let Some(ref config) = existing_config {
+        // Config exists - ask what they want to do
+        let options = vec![
+            "Change themes only (keep current location)",
+            "Full setup (reconfigure everything)",
+            "Cancel",
+        ];
+
+        let selection = Select::new()
+            .with_prompt("Config already exists. What would you like to do?")
+            .items(&options)
+            .default(0)
             .interact()?;
 
-        if !overwrite {
-            println!("Setup cancelled.");
-            return Ok(());
-        }
-    }
-
-    // Get location by name
-    println!("--- Location Setup ---\n");
-    println!("Enter your location for sunrise/sunset calculations.\n");
-
-    let (latitude, longitude) = loop {
-        let location_query: String = Input::new()
-            .with_prompt("  Location (city, address, etc.)")
-            .interact_text()?;
-
-        println!("Searching...");
-
-        match geocode_location(&location_query) {
-            Ok(locations) => {
-                if locations.is_empty() {
-                    println!("No locations found. Please try again.\n");
-                    continue;
-                }
-
-                let items: Vec<String> = locations
-                    .iter()
-                    .map(|loc| loc.display_name.clone())
-                    .collect();
-
-                let selection = Select::new()
-                    .with_prompt("  Select your location")
-                    .items(&items)
-                    .default(0)
-                    .interact()?;
-
-                let selected = &locations[selection];
+        match selection {
+            0 => {
+                // Keep existing location, skip to theme selection
                 println!(
-                    "\nSelected: {} ({:.4}, {:.4})\n",
-                    selected.display_name, selected.latitude, selected.longitude
+                    "\nKeeping location: ({:.4}, {:.4})\n",
+                    config.location.latitude, config.location.longitude
                 );
-
-                break (selected.latitude, selected.longitude);
+                (config.location.latitude, config.location.longitude)
             }
-            Err(e) => {
-                println!("Error: {}. Please try again.\n", e);
-                continue;
+            1 => {
+                // Full setup - get new location
+                println!("\n--- Location Setup ---\n");
+                println!("Enter your location for sunrise/sunset calculations.\n");
+                get_location()?
+            }
+            _ => {
+                println!("Setup cancelled.");
+                return Ok(());
             }
         }
+    } else {
+        // No existing config - do full location setup
+        println!("--- Location Setup ---\n");
+        println!("Enter your location for sunrise/sunset calculations.\n");
+        get_location()?
     };
 
     // Theme selection with presets
     println!("--- Theme Setup ---\n");
     let (ghostty_light, ghostty_dark, neovim_light, neovim_dark) = select_theme_preset()?;
 
-    // Ask for anonymous telemetry consent
-    println!("--- Help Improve Suntheme ---\n");
-    let telemetry_enabled = Confirm::new()
-        .with_prompt("  Share anonymous install statistics?")
-        .default(true)
-        .interact()?;
-
-    if telemetry_enabled {
-        println!("  Thanks! This helps prioritize development.\n");
+    // Ask for anonymous telemetry consent (only if new setup or not previously set)
+    let telemetry_enabled = if let Some(ref config) = existing_config {
+        if let Some(tel) = config.telemetry {
+            tel // Keep existing preference
+        } else {
+            ask_telemetry_consent()?
+        }
     } else {
-        println!("  No problem. No data will be collected.\n");
-    }
+        ask_telemetry_consent()?
+    };
 
     // Create and save config
     let config = Config {
@@ -136,8 +125,8 @@ pub fn run() -> Result<()> {
     config.save()?;
     println!("Config saved to {:?}", Config::config_path()?);
 
-    // Send telemetry ping if enabled
-    if telemetry_enabled {
+    // Send telemetry ping if enabled (only on first setup)
+    if existing_config.is_none() && telemetry_enabled {
         telemetry::send_install_ping();
     }
 
@@ -190,6 +179,64 @@ pub fn run() -> Result<()> {
     println!();
 
     Ok(())
+}
+
+fn ask_telemetry_consent() -> Result<bool> {
+    println!("--- Help Improve Suntheme ---\n");
+    let telemetry_enabled = Confirm::new()
+        .with_prompt("  Share anonymous install statistics?")
+        .default(true)
+        .interact()?;
+
+    if telemetry_enabled {
+        println!("  Thanks! This helps prioritize development.\n");
+    } else {
+        println!("  No problem. No data will be collected.\n");
+    }
+
+    Ok(telemetry_enabled)
+}
+
+fn get_location() -> Result<(f64, f64)> {
+    loop {
+        let location_query: String = Input::new()
+            .with_prompt("  Location (city, address, etc.)")
+            .interact_text()?;
+
+        println!("Searching...");
+
+        match geocode_location(&location_query) {
+            Ok(locations) => {
+                if locations.is_empty() {
+                    println!("No locations found. Please try again.\n");
+                    continue;
+                }
+
+                let items: Vec<String> = locations
+                    .iter()
+                    .map(|loc| loc.display_name.clone())
+                    .collect();
+
+                let selection = Select::new()
+                    .with_prompt("  Select your location")
+                    .items(&items)
+                    .default(0)
+                    .interact()?;
+
+                let selected = &locations[selection];
+                println!(
+                    "\nSelected: {} ({:.4}, {:.4})\n",
+                    selected.display_name, selected.latitude, selected.longitude
+                );
+
+                return Ok((selected.latitude, selected.longitude));
+            }
+            Err(e) => {
+                println!("Error: {}. Please try again.\n", e);
+                continue;
+            }
+        }
+    }
 }
 
 fn select_theme_preset() -> Result<(String, String, String, String)> {

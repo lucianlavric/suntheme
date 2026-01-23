@@ -45,6 +45,7 @@ fn send_ping() -> Result<()> {
 }
 
 /// Get current install count (for display purposes)
+#[allow(dead_code)]
 pub fn get_install_count() -> Result<u64> {
     let response: serde_json::Value =
         reqwest::blocking::get("https://api.countapi.xyz/get/suntheme/installs")?.json()?;

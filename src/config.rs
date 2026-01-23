@@ -46,6 +46,7 @@ impl Default for Config {
                     dark: "rose-pine".to_string(),
                 },
             },
+            telemetry: None,
         }
     }
 }
